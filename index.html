@@ -51,6 +51,22 @@
       console.log("All Test has been Passed");
       console.log(Redux);
 
+//================================================
+
+function reducers({state,action}){
+  switch (action.type) {
+    case "Add_Counter":
+      return state.concat((0));
+      case "Remove_Counter":
+        return state.filter((counter,index)=> index !== action.index)
+  
+    default:
+      break;
+  }
+}
+
+
+
 const{createStore} = Redux;
 const store = createStore(reducer)
 console.log(store);
