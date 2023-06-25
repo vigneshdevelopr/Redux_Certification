@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://unpkg.com/expect@%3C21/umd/expect.min.js"></script>
+    <script src="https://unpkg.com/redux@4.2.1/dist/redux.js"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+
+
+</head>
+<body>
+<div id="root">
+    Learning Redux...
+</div>
+<script type="text/babel">
+      function reducer(state = 1999, action) {
+        switch (typeof state) {
+          case "undefined":
+            return (state = 0);
+
+          default:
+            break;
+        }
+
+        switch (action.type) {
+          case "INCREMENT":
+            return state + 1;
+
+          case "DECREMENT":
+            return state - 1;
+
+          default:
+            return state;
+        }
+      }
+      expect(reducer(0, { type: "INCREMENT" })).toBe(1);
+      expect(reducer(1, { type: "INCREMENT" })).toBe(2);
+
+      expect(reducer(1, { type: "DECREMENT" })).toBe(0);
+      expect(reducer(2, { type: "DECREMENT" })).toBe(1);
+
+      expect(reducer(1, { type: "SOMETHINGELSE" })).toBe(1);
+
+      expect(reducer(undefined, {})).toBe(1999);
+
+      console.log("All Test has been Passed");
+      console.log(Redux);
+
+const{createStore} = Redux;
+const store = createStore(reducer)
+console.log(store);
+console.log(store.getState());
+const Counter = ({value,onIncrement,onDecrement}) => <div>
+  <h1>{value}</h1>
+  <button onClick={onIncrement}>INCREMENT</button>
+  <button onClick={onDecrement}>DECREMENT</button>
+  </div>
+
+const render = () =>{
+    // document.body.innerText = store.getState()
+ReactDOM.render(<Counter value={store.getState()} onIncrement={()=>store.dispatch({type: "INCREMENT"})} onDecrement={()=>store.dispatch({type: "DECREMENT"})} />, document.getElementById('root'))
+    console.log(store.getState());
+}
+store.subscribe(render)
+console.log(store.getState())
+render();
+
+// store.dispatch({type: "INCREMENT"})
+// console.log(store.getState());
+// document.addEventListener("click",()=>{
+//     store.dispatch({type: "INCREMENT"});
+// });
+
+
+    </script>
+   
+</body>
+</html>
